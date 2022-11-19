@@ -1,11 +1,11 @@
 import { View, Image, Pressable, StyleSheet, Text } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 
-const NewsItem = ({ image, title, onPress }) => {
+const NewsItem = ({ mainImage, title, onPress }) => {
     return (
         <View style={styles.container}>
-            <Pressable onPress={onPress}>
-                <Image style={styles.mealImg} source={{ uri: image }} />
+            <Pressable onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
+                <Image style={styles.mealImg} source={{ uri: mainImage }} />
                 <View style={styles.titleContainer}>
                     <View style={styles.line}></View>
                     <Text style={styles.title}>{title}</Text>
@@ -46,5 +46,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         margin: 7,
         width: '90%'
+    },
+    pressed:{
+        opacity: 0.7
     }
 })

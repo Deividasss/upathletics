@@ -1,23 +1,47 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
-
+import ImageSlider from "../../utils/ImageSlider"
 
 const NewsDetails = ({ route, navigation }) => {
 
-    const imageId = route.params.image
+    const imageId = route.params.mainImage
     const titleId = route.params.title
-    const descriptionId = route.params.description
+    const mainDescriptionId = route.params.mainDescription
+    const secondDescriptionId = route.params.secondDescription
+    const moreImages = route.params.moreImages
+    const date = route.params.date
 
     return (
         <View style={styles.mainContainer}>
             <View style={styles.line}></View>
-            <ScrollView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.container}>
-                    <Text style={styles.title}>{titleId}</Text>
+                    <View style={styles.titleContainer}>
+                        <View style={styles.line2}></View>
+                        <Text style={styles.title}>{titleId}</Text>
+                        <View style={styles.line2}></View>
+                        <Text style={styles.lastUpdated}>Last Updated on <Text style={styles.date}>{date}</Text></Text>
+                    </View>
                     <Image style={styles.image} source={{ uri: imageId }} />
                     <View style={styles.descriptionContainer}>
-                        <Text style={styles.description}>{descriptionId}</Text>
+                        <View style={styles.line3}></View>
+                        {mainDescriptionId.map((item, index) => (
+                            <Text key={index} style={styles.description}>{item}</Text>
+                        ))}
+                        <View style={styles.line3}></View>
                     </View>
+                </View>
+                <View style={styles.sliderContainer}>
+                    <ImageSlider images={imageId} moreImages={moreImages} />
+                </View>
+                <View style={styles.descriptionContainer}>
+                    <View style={styles.line3}></View>
+                    {secondDescriptionId.map((item, index) => (
+                        <Text key={index} style={styles.description}>{item}</Text>
+                    ))}
+                    <View style={styles.line3}></View>
                 </View>
             </ScrollView>
         </View>
@@ -30,35 +54,56 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: GlobalStyles.colors.background
     },
+    jolo: {
+
+    },
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+    },
+    titleContainer: {
+        padding: 10,
+    },
+    descriptionContainer: {
+        padding: 20,
+    },
+    sliderContainer: {
+
     },
     image: {
-        width: '90%',
+        width: '95%',
         height: 220,
-        borderColor: GlobalStyles.colors.primary200,
-        borderWidth: 3,
         borderRadius: 10
     },
     line: {
         borderBottomColor: '#252424',
         borderBottomWidth: 0.3
     },
+    line2: {
+        borderBottomColor: GlobalStyles.colors.primary200,
+        borderBottomWidth: 2,
+        marginVertical: 5,
+    },
+    line3: {
+        borderBottomColor: GlobalStyles.colors.primary200,
+        borderBottomWidth: 2,
+        marginTop: 15
+    },
     title: {
         color: GlobalStyles.colors.text,
         fontSize: 20,
-        padding: 5,
-        marginBottom: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
-    descriptionContainer: {
-        padding: 10
+    date: {
+        fontWeight: 'bold',
+    },
+    lastUpdated: {
+        color: GlobalStyles.colors.text,
     },
     description: {
         color: GlobalStyles.colors.text,
         fontSize: 16,
-        textAlign: 'center'
-    }
+        letterSpacing: 1,
+        marginTop: 10
+    },
 })

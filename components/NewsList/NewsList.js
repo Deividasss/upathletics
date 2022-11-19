@@ -12,16 +12,21 @@ const NewsList = () => {
     const renderCategoriesItem = (itemData) => {
         const pressHandler = () => {
             navigation.navigate('NewsDetails', {
-                image: itemData.item.image,
+                mainImage: itemData.item.mainImage,
                 title: itemData.item.title,
-                description: itemData.item.description
+                mainDescription: itemData.item.mainDescription,
+                secondDescription: itemData.item.secondDescription,
+                moreImages: itemData.item.moreImages,
+                date: itemData.item.date
             })
         }
         return (
             <NewsItem
-                image={itemData.item.image}
+                mainImage={itemData.item.mainImage}
                 title={itemData.item.title}
-                description={itemData.item.description}
+                mainDescription={itemData.item.mainDescription}
+                secondDescription={itemData.item.secondDescription}
+                date={itemData.item.date}
                 onPress={pressHandler}
             />
         )

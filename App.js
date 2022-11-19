@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { GlobalStyles } from './styles/colors/GlobalColors';
 import WallpaperDetailScreen from './screens/WallpapersScreens/WallpaperDetailScreen';
 import NewsDetails from './screens/NewsScreens/NewsDetails';
+import PlayerScreen from './screens/PlayerScreen/PlayerScreen';
 
 const Stack = createNativeStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -24,16 +25,26 @@ const UpathleticsOverview = () => {
           borderTopWidth: 0.2,
           borderTopColor: '#252424',
           backgroundColor: GlobalStyles.colors.background,
+          height: 80
         }
       }}>
         <Tabs.Screen name='Main' component={MainScreen}
           options={{
+            tabBarLabel: () => { return null },
             tabBarIcon: ({ color, size }) => (
               <Ionicons name='home' size={size} color={color} />
             )
           }} />
+        <Tabs.Screen name='PLayer' component={PlayerScreen}
+          options={{
+            tabBarLabel: () => { return null },
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name='play-circle' size={size} color={color} />
+            )
+          }} />
         <Tabs.Screen name='Wallpapers' component={WallpapersScreen}
           options={{
+            tabBarLabel: () => { return null },
             tabBarIcon: ({ color, size }) => (
               <Ionicons name='images' size={size} color={color} />
             )
@@ -70,7 +81,7 @@ export default function App() {
             headerTitle: 'Wallpapers',
           }} />
           <Stack.Screen name='NewsDetails' component={NewsDetails} options={{
-             headerTitle: 'News',
+            headerTitle: "News",
           }} />
         </Stack.Navigator>
       </NavigationContainer>
