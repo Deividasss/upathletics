@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useState, useContext } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '../ui/Button';
 import Input from './Input';
+import { AuthContext } from '../../store/auth-context';
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
+  const authCtx = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
@@ -33,7 +35,6 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         break;
     }
   }
-
   function submitHandler() {
     onSubmit({
       email: enteredEmail,
@@ -46,6 +47,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View style={styles.form}>
       <View>
+        <Text style={styles.jolo}>{authCtx.email}</Text>
         <Input
           label="Email Address"
           placeholder={<Ionicons name='mail' size={30} color={"grey"} />}
@@ -104,4 +106,7 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
   },
+  jolo: {
+    color: 'white'
+  }
 });

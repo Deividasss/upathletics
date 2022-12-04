@@ -12,16 +12,18 @@ import WallpaperDetailScreen from './screens/WallpapersScreens/WallpaperDetailSc
 import NewsDetails from './screens/NewsScreens/NewsDetails';
 import PlayerScreen from './screens/PlayerScreen/PlayerScreen';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from 'react';
 import LoginScreen from './screens/AuthScreens/Login/LoginScreen';
 import SignupScreen from './screens/AuthScreens/Register/RegisterScreen';
+import AppLoading from 'expo-app-loading';
 import UserScreen from './screens/UserScreen/UserScreen';
+import SavedInfoScreen from './screens/SavedInfoScreens/SavedInfoScreen';
 
 const Stack = createNativeStackNavigator()
 const Tabs = createBottomTabNavigator()
 
 const UpathleticsOverview = () => {
-  const authCtx = useContext(AuthContext);
   return (
     <>
       <Tabs.Navigator screenOptions={{
@@ -83,7 +85,6 @@ function AuthStack() {
 }
 
 function AuthenticatedStack() {
-  const authCtx = useContext(AuthContext);
   return (
     <>
       <SafeAreaView style={styles.safeArea} />
@@ -111,6 +112,9 @@ function AuthenticatedStack() {
         <Stack.Screen name='NewsDetails' component={NewsDetails} options={{
           headerTitle: "News",
         }} />
+        <Stack.Screen name='SavedInfo' component={SavedInfoScreen} options={{
+          headerTitle: "Saved",
+        }} />
       </Stack.Navigator>
     </>
   );
@@ -129,6 +133,7 @@ function Navigation() {
 
 function Root() {
   const [isTryingLogin, setIsTryingLogin] = useState(true);
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     async function fetchToken() {
@@ -143,6 +148,7 @@ function Root() {
 
     fetchToken();
   }, []);
+
 
 
   return <Navigation />;
@@ -163,10 +169,5 @@ const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: 'black'
   },
-  logo:{
-    height: 50,
-    width: 120,
-    marginHorizontal: 20
-  }
 });
 

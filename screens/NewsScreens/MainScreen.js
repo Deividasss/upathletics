@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Image, } from "react-native"
 import NewsList from "../../components/NewsList/NewsList";
 import { GlobalStyles } from "../../styles/colors/GlobalColors";
 import OlympiaCountdown from "../../utils/OlympiaCountdown";
+import NEWS_DATA from "../../dataBases/NewsData.json"
 
 
 const MainScreen = () => {
@@ -11,7 +12,8 @@ const MainScreen = () => {
             <View style={styles.container}>
                 <Image style={styles.logo} source={require('../../assets/logo.png')} />
                 <View style={styles.newsContainer}>
-                    <NewsList />
+                    <OlympiaCountdown />
+                    <NewsList items={NEWS_DATA.news} />
                 </View>
             </View>
         </View>

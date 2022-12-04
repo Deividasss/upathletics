@@ -1,20 +1,25 @@
 import { Text, StyleSheet, View, Pressable, Image, Modal } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import AuthContextProvider, { AuthContext } from '../../store/auth-context';
-import Button from '../../components/ui/Button';
-import FlatButton from "../../components/ui/FlatButton";
+import { AuthContext } from '../../store/auth-context';
+import Button from "../../components/ui/Button"
+import { useNavigation } from "@react-navigation/native"
 
 const UserScreen = () => {
+    const navigation = useNavigation()
     const authCtx = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
+
     return (
         <>
             <View style={styles.mainContainer}>
-                <Pressable onPress={() => setModalVisible(true)} style={styles.logoBtn}>
+                <View style={styles.navigatorContainer}>
                     <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                </Pressable>
+                    <Pressable onPress={() => setModalVisible(true)} style={styles.menuBtn}>
+                        <Ionicons name="menu" size={35} color={GlobalStyles.colors.text} />
+                    </Pressable>
+                </View>
                 <View style={styles.centeredView}>
                     <Modal
                         animationType="slide"
@@ -24,13 +29,20 @@ const UserScreen = () => {
                         onRequestClose={() => { setModalVisible(false); }}>
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <FlatButton style={styles.logoutBtn} onPress={authCtx.logout}>Log-Out</FlatButton>
-                                <Pressable
-                                    style={styles.closeBtn}
-                                    onPress={() => setModalVisible(false)}
-                                >
-                                    <Ionicons name="close" size={35} color={GlobalStyles.colors.text} />
-                                </Pressable>
+                                <View style={styles.modalHeaderContainer}>
+                                    <Pressable
+                                        style={styles.closeBtn}
+                                        onPress={() => setModalVisible(false)}
+                                    >
+                                        <Ionicons name="close" size={35} color={GlobalStyles.colors.buttons} />
+                                    </Pressable>
+                                </View>
+                                <View style={styles.line}></View>
+                                <Text>{authCtx.email}</Text>
+                                <Button onPress={() => navigation.navigate('SavedInfo')}>SAVED</Button>
+                                <View style={styles.logoutBtn}>
+                                    <Button onPress={authCtx.logout}>Logout</Button>
+                                </View>
                             </View>
                         </View>
                     </Modal>
@@ -45,18 +57,23 @@ export default UserScreen
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        flexDirection: 'row',
         backgroundColor: GlobalStyles.colors.background,
+    },
+    navigatorContainer: {
+        flexDirection: 'row',
+        width: '100%'
     },
     logo: {
         height: 50,
         width: '32%',
     },
+    menuBtn: {
+        position: 'absolute',
+        right: 20,
+        top: 10,
+    },
     centeredView: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
     },
     modalView: {
         position: 'absolute',
@@ -65,39 +82,23 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: '100%',
         height: 400,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
     },
     closeBtn: {
         position: 'absolute',
-        right: 20,
-        top: 15
+        right: 15,
+        top: 8,
     },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    },
-    logoBtn: {
+    line: {
+        borderColor: GlobalStyles.colors.primary200,
+        borderWidth: 1,
+        marginTop: 50,
         width: '100%',
     },
     logoutBtn: {
-        backgroundColor: GlobalStyles.colors.text,
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginHorizontal: 23,
+        marginBottom: 60,
+        width: "90%"
     },
 });

@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   buttons: {
-    flex: 1,
     flexDirection: 'row',
     marginVertical: 25,
   },

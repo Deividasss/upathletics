@@ -1,18 +1,32 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native"
+import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 import ImageSlider from "../../utils/ImageSlider"
+import { AuthContext } from '../../store/auth-context';
+import { useContext, useEffect, useState } from "react"
+import NEWS_DATA from "../../dataBases/NewsData.json"
 
 const NewsDetails = ({ route, navigation }) => {
 
-    const imageId = route.params.mainImage
-    const titleId = route.params.title
-    const mainDescriptionId = route.params.mainDescription
-    const secondDescriptionId = route.params.secondDescription
-    const moreImages = route.params.moreImages
-    const date = route.params.date
+    const authCtx = useContext(AuthContext);
+    const productId = route.params.newsId
+    const selectedProduct = NEWS_DATA.news.find((item) => item.id === productId)
+    const productIsFavorite = authCtx.ids.includes(productId)
+
+    const addToFavorites = () => {
+        if (productIsFavorite) {
+            authCtx.removeFavorite(productId)
+            alert('Removed From Favorites')
+        } else {
+            authCtx.addFavorite(productId)
+            alert('Added To Favorites')
+        }
+    }
 
     return (
         <View style={styles.mainContainer}>
+            <Pressable onPress={addToFavorites}>
+                <Text style={styles.jolo}>JOLO</Text>
+            </Pressable>
             <View style={styles.line}></View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -20,25 +34,25 @@ const NewsDetails = ({ route, navigation }) => {
                 <View style={styles.container}>
                     <View style={styles.titleContainer}>
                         <View style={styles.line2}></View>
-                        <Text style={styles.title}>{titleId}</Text>
+                        <Text style={styles.title}>{selectedProduct.title}</Text>
                         <View style={styles.line2}></View>
-                        <Text style={styles.lastUpdated}>Last Updated on <Text style={styles.date}>{date}</Text></Text>
+                        <Text style={styles.lastUpdated}>Last Updated on <Text style={styles.date}>{selectedProduct.date}</Text></Text>
                     </View>
-                    <Image style={styles.image} source={{ uri: imageId }} />
+                    <Image style={styles.image} source={{ uri: selectedProduct.mainImage }} />
                     <View style={styles.descriptionContainer}>
                         <View style={styles.line3}></View>
-                        {mainDescriptionId.map((item, index) => (
+                        {selectedProduct.mainDescription.map((item, index) => (
                             <Text key={index} style={styles.description}>{item}</Text>
                         ))}
                         <View style={styles.line3}></View>
                     </View>
                 </View>
                 <View style={styles.sliderContainer}>
-                    <ImageSlider images={imageId} moreImages={moreImages} />
+                    <ImageSlider images={selectedProduct.mainImage} moreImages={selectedProduct.moreImages} />
                 </View>
                 <View style={styles.descriptionContainer}>
                     <View style={styles.line3}></View>
-                    {secondDescriptionId.map((item, index) => (
+                    {selectedProduct.secondDescription.map((item, index) => (
                         <Text key={index} style={styles.description}>{item}</Text>
                     ))}
                     <View style={styles.line3}></View>
@@ -55,7 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: GlobalStyles.colors.background
     },
     jolo: {
-
+        color: 'white'
     },
     container: {
         justifyContent: 'center',

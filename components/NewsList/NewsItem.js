@@ -1,10 +1,25 @@
 import { View, Image, Pressable, StyleSheet, Text } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
+import { useNavigation } from "@react-navigation/native"
 
-const NewsItem = ({ mainImage, title, onPress }) => {
+const NewsItem = ({ id, mainImage, title, mainDescription, secondDescription, date, moreImages }) => {
+
+    const navigation = useNavigation()
+
+    const selectedNewsHandler = () => {
+        navigation.navigate('NewsDetails', {
+            newsId: id,
+            mainImage: mainImage,
+            title: title,
+            mainDescription: mainDescription,
+            secondDescription: secondDescription,
+            moreImages: moreImages,
+            date: date
+        })
+    }
     return (
         <View style={styles.container}>
-            <Pressable onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
+            <Pressable onPress={selectedNewsHandler} style={({ pressed }) => pressed && styles.pressed}>
                 <Image style={styles.mealImg} source={{ uri: mainImage }} />
                 <View style={styles.titleContainer}>
                     <View style={styles.line}></View>
@@ -47,7 +62,7 @@ const styles = StyleSheet.create({
         margin: 7,
         width: '90%'
     },
-    pressed:{
+    pressed: {
         opacity: 0.7
     }
 })

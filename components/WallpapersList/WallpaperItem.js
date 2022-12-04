@@ -1,11 +1,22 @@
 import { Image, View, StyleSheet, Pressable } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 
-const WallpaperItem = ({ item, onPress }) => {
+const WallpaperItem = ({ id, image }) => {
+
+    const navigation = useNavigation()
+
+    const selectProductItemHandler = () => {
+        navigation.navigate('WallpaperDetails', {
+            productId: id,
+            image: image,
+        })
+    }
+
     return (
 
         <View style={styles.container}>
-            <Pressable onPress={onPress}>
-                <Image style={styles.mealImg} source={{ uri: item }} />
+            <Pressable onPress={selectProductItemHandler}>
+                <Image style={styles.mealImg} source={{ uri: image }} />
             </Pressable>
         </View>
     )
