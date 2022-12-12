@@ -3,12 +3,11 @@ import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
 import MainScreen from './screens/NewsScreens/MainScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import WallpapersScreen from './screens/WallpapersScreens/WallpapersScreen';
+import SteroidDetailScreen from './screens/SteroidsScreens/SteroidDetailScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalStyles } from './styles/colors/GlobalColors';
-import WallpaperDetailScreen from './screens/WallpapersScreens/WallpaperDetailScreen';
 import NewsDetails from './screens/NewsScreens/NewsDetails';
 import PlayerScreen from './screens/PlayerScreen/PlayerScreen';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
@@ -19,6 +18,7 @@ import SignupScreen from './screens/AuthScreens/Register/RegisterScreen';
 import AppLoading from 'expo-app-loading';
 import UserScreen from './screens/UserScreen/UserScreen';
 import SavedInfoScreen from './screens/SavedInfoScreens/SavedInfoScreen';
+import SteroidsScreen from './screens/SteroidsScreens/SteroidsScreen';
 
 const Stack = createNativeStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -43,18 +43,18 @@ const UpathleticsOverview = () => {
               <Ionicons name='home' size={size} color={color} />
             )
           }} />
-        <Tabs.Screen name='PLayer' component={PlayerScreen}
+        <Tabs.Screen name='Steroids' component={SteroidsScreen}
+          options={{
+            tabBarLabel: () => { return null },
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name='flask' size={size} color={color} />
+            )
+          }} />
+          <Tabs.Screen name='PLayer' component={PlayerScreen}
           options={{
             tabBarLabel: () => { return null },
             tabBarIcon: ({ color, size }) => (
               <Ionicons name='play-circle' size={size} color={color} />
-            )
-          }} />
-        <Tabs.Screen name='Wallpapers' component={WallpapersScreen}
-          options={{
-            tabBarLabel: () => { return null },
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name='images' size={size} color={color} />
             )
           }} />
         <Tabs.Screen name='UserInfo' component={UserScreen}
@@ -106,8 +106,8 @@ function AuthenticatedStack() {
         <Stack.Screen name='UpathleticsOverview' component={UpathleticsOverview} options={{
           headerShown: false
         }} />
-        <Stack.Screen name='WallpaperDetails' component={WallpaperDetailScreen} options={{
-          headerTitle: 'Wallpapers',
+        <Stack.Screen name='SteroidsDetails' component={SteroidDetailScreen} options={{
+          
         }} />
         <Stack.Screen name='NewsDetails' component={NewsDetails} options={{
           headerTitle: "News",

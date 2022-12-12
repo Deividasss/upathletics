@@ -47,7 +47,6 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View style={styles.form}>
       <View>
-        <Text style={styles.jolo}>{authCtx.email}</Text>
         <Input
           label="Email Address"
           placeholder={<Ionicons name='mail' size={30} color={"grey"} />}

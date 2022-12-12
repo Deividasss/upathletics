@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native"
+import { useLayoutEffect } from "react";
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 import ImageSlider from "../../utils/ImageSlider"
 import { AuthContext } from '../../store/auth-context';
 import { useContext, useEffect, useState } from "react"
 import NEWS_DATA from "../../dataBases/NewsData.json"
+import SaveButon from "../../components/ui/SaveButton";
 
 const NewsDetails = ({ route, navigation }) => {
 
@@ -15,18 +17,27 @@ const NewsDetails = ({ route, navigation }) => {
     const addToFavorites = () => {
         if (productIsFavorite) {
             authCtx.removeFavorite(productId)
-            alert('Removed From Favorites')
         } else {
             authCtx.addFavorite(productId)
-            alert('Added To Favorites')
         }
     }
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => {
+                return (
+                    <SaveButon
+                        icon={productIsFavorite ? 'heart' : 'heart-outline'}
+                        color="white"
+                        onPress={addToFavorites}
+                    />
+                );
+            },
+        });
+    }, [navigation, addToFavorites]);
+
     return (
         <View style={styles.mainContainer}>
-            <Pressable onPress={addToFavorites}>
-                <Text style={styles.jolo}>JOLO</Text>
-            </Pressable>
             <View style={styles.line}></View>
             <ScrollView
                 showsVerticalScrollIndicator={false}

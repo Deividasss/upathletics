@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     newsContainer: {
-        flex: 1,
+        flex: 1, 
+        marginBottom: 90
     }
 })

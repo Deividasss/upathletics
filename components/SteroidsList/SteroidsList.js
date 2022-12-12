@@ -1,18 +1,21 @@
 import { FlatList, StyleSheet, TextInput, View, Text, } from "react-native"
-import WALLPAPERS_DATA from "../../dataBases/WallpapersData.json"
-import WallpaperItem from "./WallpaperItem"
+import SteroidItem from "./SteroidItem"
 import { useNavigation } from "@react-navigation/native"
-import { useState } from "react"
+import OlympiaCountdown from "../../utils/OlympiaCountdown";
+import SteroidsHeader from "./SteroidsHeader";
 
-const WallpapersList = ({ items }) => {
+
+const SteroidsList = ({ items }) => {
     const navigation = useNavigation()
-    const [wallpaperData, setWallpaperData] = useState(WALLPAPERS_DATA.products)
-    const [search, setSearch] = useState('')
 
     const renderCategoriesItem = (itemData) => {
-        return <WallpaperItem
+        return <SteroidItem
             id={itemData.item.id}
             image={itemData.item.image}
+            title={itemData.item.title}
+            subTitle={itemData.item.subTitle}
+            description={itemData.item.description}
+            raiting={itemData.item.raiting}
         />
     }
 
@@ -20,23 +23,20 @@ const WallpapersList = ({ items }) => {
     return (
         <>
             <View style={styles.mainContainer}>
-                {wallpaperData < 1 && <Text style={styles.nothingFound}>No results found for "{search}"</Text>}
                 <FlatList
+                    ListHeaderComponent={<SteroidsHeader />}
                     data={items}
                     renderItem={renderCategoriesItem}
                     keyExtractor={(item) => item.id}
-                    numColumns={3}
                 />
             </View>
         </>
     )
 }
-export default WallpapersList
+export default SteroidsList
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        paddingBottom: 85
-    },
+
     container: {
         justifyContent: 'center',
         alignItems: 'center',

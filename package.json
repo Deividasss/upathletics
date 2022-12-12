@@ -26,6 +26,7 @@
     "react-native-countdown-component": "^2.7.1",
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-embed-instagram": "^0.1.1",
+    "react-native-image-picker": "^4.10.2",
     "react-native-instagram-embed": "^0.0.6",
     "react-native-safe-area": "^0.5.1",
     "react-native-webview": "^11.23.1",

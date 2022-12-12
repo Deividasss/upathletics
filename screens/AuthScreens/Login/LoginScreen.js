@@ -7,10 +7,10 @@ import { login } from '../../../utils/auth';
 
 function LoginScreen() {
     const [isAuthenticating, setIsAuthenticating] = useState(false);
-
     const authCtx = useContext(AuthContext);
 
     async function loginHandler({ email, password }) {
+        authCtx.setEmail(email)
         setIsAuthenticating(true);
         try {
             const token = await login(email, password);

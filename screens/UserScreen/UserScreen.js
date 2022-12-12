@@ -3,13 +3,39 @@ import { GlobalStyles } from "../../styles/colors/GlobalColors"
 import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../store/auth-context';
-import Button from "../../components/ui/Button"
 import { useNavigation } from "@react-navigation/native"
+import * as ImagePicker from 'react-native-image-picker';
+import React, { useCallback } from 'react';
+import { ImagePickerModal } from '../../components/ui/ImagePickerModal';
+import { ImagePickerAvatar } from '../../components/ui/Avatar';
+import MenuModal from "../../components/ui/MenuModal";
 
 const UserScreen = () => {
     const navigation = useNavigation()
     const authCtx = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [pickerResponse, setPickerResponse] = useState(null);
+
+    const onImageLibraryPress = useCallback(() => {
+        const options = {
+            selectionLimit: 1,
+            mediaType: 'photo',
+            includeBase64: false,
+        };
+        ImagePicker.launchImageLibrary(options, setPickerResponse);
+    }, []);
+
+    const onCameraPress = React.useCallback(() => {
+        const options = {
+            saveToPhotos: true,
+            mediaType: 'photo',
+            includeBase64: false,
+        };
+        ImagePicker.launchCamera(options, setPickerResponse);
+    }, []);
+
+    const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
 
     return (
         <>
@@ -19,33 +45,20 @@ const UserScreen = () => {
                     <Pressable onPress={() => setModalVisible(true)} style={styles.menuBtn}>
                         <Ionicons name="menu" size={35} color={GlobalStyles.colors.text} />
                     </Pressable>
+                    <View>
+                        <MenuModal setModal={setModalVisible} isVisible={modalVisible} />
+                    </View>
                 </View>
-                <View style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        presentationStyle={"overFullScreen"}
-                        onRequestClose={() => { setModalVisible(false); }}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <View style={styles.modalHeaderContainer}>
-                                    <Pressable
-                                        style={styles.closeBtn}
-                                        onPress={() => setModalVisible(false)}
-                                    >
-                                        <Ionicons name="close" size={35} color={GlobalStyles.colors.buttons} />
-                                    </Pressable>
-                                </View>
-                                <View style={styles.line}></View>
-                                <Text>{authCtx.email}</Text>
-                                <Button onPress={() => navigation.navigate('SavedInfo')}>SAVED</Button>
-                                <View style={styles.logoutBtn}>
-                                    <Button onPress={authCtx.logout}>Logout</Button>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
+                <View style={styles.userInfoContainer}>
+                    <ImagePickerAvatar uri={uri} onPress={() => setVisible(true)} />
+                    <ImagePickerModal
+                        isVisible={visible}
+                        onClose={() => setVisible(false)}
+                        onImageLibraryPress={onImageLibraryPress}
+                        onCameraPress={onCameraPress} />
+                    <View style={styles.userEmailContainer}>
+                        <Text style={styles.userEmail}>{authCtx.email}</Text>
+                    </View>
                 </View>
             </View>
 
@@ -63,6 +76,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%'
     },
+    userInfoContainer: {
+        alignItems: 'center',
+        marginVertical: 50
+    },
+    userEmailContainer: {
+        width: '80%',
+        backgroundColor: GlobalStyles.colors.modal,
+        padding: 10,
+        margin: 10,
+        borderRadius: 10
+    },
     logo: {
         height: 50,
         width: '32%',
@@ -71,6 +95,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 20,
         top: 10,
+    },
+    userEmail: {
+        color: GlobalStyles.colors.text,
+        fontSize: 16,
+        textAlign: 'center'
     },
     centeredView: {
         flex: 1,

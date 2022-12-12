@@ -6,9 +6,9 @@ export const AuthContext = createContext({
   token: '',
   email: '',
   ids: [],
+  isAuthenticated: false,
   addFavorite: (id) => { },
   removeFavorite: (id) => { },
-  isAuthenticated: false,
   authenticate: (token) => { },
   logout: () => { },
   setEmail: (email) => { }
@@ -38,7 +38,7 @@ function AuthContextProvider({ children }) {
   }
 
   function setEmail(email) {
-    setEmailName(emailName)
+    setEmailName(email)
     AsyncStorage.setItem('email', email);
   }
 
@@ -46,10 +46,10 @@ function AuthContextProvider({ children }) {
     token: authToken,
     email: emailName,
     isAuthenticated: !!authToken,
+    ids: favoriteProductIds,
     authenticate: authenticate,
     logout: logout,
     setEmail: setEmail,
-    ids: favoriteProductIds,
     addFavorite: addFavorite,
     removeFavorite: removeFavorite,
   };
