@@ -1,41 +1,41 @@
-import { Text, StyleSheet, View, Pressable, Image, Modal } from "react-native"
+import { Text, StyleSheet, View, Pressable, Image, Modal, Platform, FlatList } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../store/auth-context';
 import { useNavigation } from "@react-navigation/native"
-import * as ImagePicker from 'react-native-image-picker';
-import React, { useCallback } from 'react';
-import { ImagePickerModal } from '../../components/ui/ImagePickerModal';
+import { ImagePickerModal } from '../../components/ui/AvatarPickerModal';
 import { ImagePickerAvatar } from '../../components/ui/Avatar';
 import MenuModal from "../../components/ui/MenuModal";
+import Button from "../../components/ui/Button";
+import * as ImagePicker from 'expo-image-picker';
 
 const UserScreen = () => {
     const navigation = useNavigation()
     const authCtx = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
     const [visible, setVisible] = useState(false);
-    const [pickerResponse, setPickerResponse] = useState(null);
+    const [image, setImage] = useState(null);
 
-    const onImageLibraryPress = useCallback(() => {
-        const options = {
-            selectionLimit: 1,
-            mediaType: 'photo',
-            includeBase64: false,
-        };
-        ImagePicker.launchImageLibrary(options, setPickerResponse);
-    }, []);
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        setImage(result)
+    };
 
-    const onCameraPress = React.useCallback(() => {
-        const options = {
-            saveToPhotos: true,
-            mediaType: 'photo',
-            includeBase64: false,
-        };
-        ImagePicker.launchCamera(options, setPickerResponse);
-    }, []);
+    const takeImage = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 0.5
+        })
+        console.log(result)
+    }
 
-    const uri = pickerResponse?.assets && pickerResponse.assets[0].uri;
 
     return (
         <>
@@ -50,12 +50,13 @@ const UserScreen = () => {
                     </View>
                 </View>
                 <View style={styles.userInfoContainer}>
-                    <ImagePickerAvatar uri={uri} onPress={() => setVisible(true)} />
+                    <ImagePickerAvatar image={image} onPress={() => setVisible(true)} />
                     <ImagePickerModal
                         isVisible={visible}
                         onClose={() => setVisible(false)}
-                        onImageLibraryPress={onImageLibraryPress}
-                        onCameraPress={onCameraPress} />
+                        onImageLibraryPress={pickImage}
+                        onCameraPress={takeImage}
+                    />
                     <View style={styles.userEmailContainer}>
                         <Text style={styles.userEmail}>{authCtx.email}</Text>
                     </View>

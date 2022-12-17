@@ -3,14 +3,34 @@ import { StyleSheet, Text, TouchableOpacity, Image, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalStyles } from '../../styles/colors/GlobalColors';
 
-export function ImagePickerAvatar({ onPress, uri }) {
+export function ImagePickerAvatar({ onPress, image }) {
+
+  const imageModal = () => {
+    onPress()
+  }
+
+  const avatarImage = () => {
+    if (image) {
+      return (
+        <Image
+          style={styles.avatarImage}
+          source={image}
+        />
+      )
+    } else {
+      return (
+        <Image
+          style={styles.avatarImage}
+          source={require('../../assets/avatar.jpg')}
+        />
+      )
+    }
+  }
+
   return (
     <View style={styles.avatar}>
-      <Image
-        style={styles.avatarImage}
-        source={uri ? { uri } : require('../../assets/userLogo.png')}
-      />
-      <TouchableOpacity style={styles.addButton} onPress={onPress}>
+      {avatarImage()}
+      <TouchableOpacity style={styles.addButton} onPress={imageModal}>
         <Ionicons style={styles.addButtonIcon} name="add" size={35} color={GlobalStyles.colors.text} />
       </TouchableOpacity>
     </View>
@@ -25,8 +45,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     overflow: 'hidden',
-    borderColor: GlobalStyles.colors.primary200,
-    borderWidth: 4,
     borderRadius: 260 / 2,
   },
   addButton: {

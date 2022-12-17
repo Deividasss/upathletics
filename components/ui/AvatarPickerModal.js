@@ -4,12 +4,17 @@ import { GlobalStyles } from '../../styles/colors/GlobalColors';
 import { Ionicons } from '@expo/vector-icons';
 import Button from './Button';
 
-export function ImagePickerModal({
-  isVisible,
-  onClose,
-  onImageLibraryPress,
-  onCameraPress,
-}) {
+export function ImagePickerModal({ isVisible, onClose, onImageLibraryPress, onCameraPress, }) {
+
+  const onImageHandler = () => {
+    onImageLibraryPress()
+    onClose(false)
+  }
+
+  const onCameraHandler = () => {
+    onCameraPress()
+    onClose(false)
+  }
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -30,11 +35,11 @@ export function ImagePickerModal({
             </View>
             <View style={styles.line}></View>
             <View style={styles.buttons}>
-              <Pressable style={styles.button} onPress={onImageLibraryPress}>
+              <Pressable style={styles.button} onPress={onImageHandler}>
                 <Ionicons name="image" size={40} color={GlobalStyles.colors.primary50} />
                 <Text style={styles.buttonText}>Library</Text>
               </Pressable>
-              <Pressable style={styles.button} onPress={onCameraPress}>
+              <Pressable style={styles.button} onPress={onCameraHandler}>
                 <Ionicons name="camera" size={40} color={GlobalStyles.colors.primary50} />
                 <Text style={styles.buttonText}>Camera</Text>
               </Pressable>
