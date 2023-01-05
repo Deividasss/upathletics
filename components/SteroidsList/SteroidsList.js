@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, TextInput, View, Text, } from "react-native"
 import SteroidItem from "./SteroidItem"
 import { useNavigation } from "@react-navigation/native"
-import OlympiaCountdown from "../../utils/OlympiaCountdown";
 import SteroidsHeader from "./SteroidsHeader";
 
 

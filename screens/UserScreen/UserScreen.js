@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../store/auth-context';
 import { useNavigation } from "@react-navigation/native"
-import { ImagePickerModal } from '../../components/ui/AvatarPickerModal';
+import { ImagePickerModal } from '../../components/ui/ImagePickerModal';
 import { ImagePickerAvatar } from '../../components/ui/Avatar';
 import MenuModal from "../../components/ui/MenuModal";
 import Button from "../../components/ui/Button";
@@ -16,6 +16,7 @@ const UserScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [visible, setVisible] = useState(false);
     const [image, setImage] = useState(null);
+    const [images, setImages] = useState([])
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -25,7 +26,10 @@ const UserScreen = () => {
             quality: 1,
         });
         setImage(result)
+        setImages(result)
     };
+
+    console.log(images)
 
     const takeImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
@@ -60,6 +64,7 @@ const UserScreen = () => {
                     <View style={styles.userEmailContainer}>
                         <Text style={styles.userEmail}>{authCtx.email}</Text>
                     </View>
+                    <Image style={styles.jolo} source={images} />
                 </View>
             </View>
 
@@ -131,4 +136,8 @@ const styles = StyleSheet.create({
         marginBottom: 60,
         width: "90%"
     },
+    jolo: {
+        width: 200,
+        height: 200
+    }
 });

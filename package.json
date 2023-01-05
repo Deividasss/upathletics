@@ -17,6 +17,7 @@
     "expo": "~46.0.9",
     "expo-app-loading": "~2.1.0",
     "expo-av": "~12.0.4",
+    "expo-image-picker": "~13.3.1",
     "expo-screen-orientation": "~4.3.0",
     "expo-status-bar": "~1.4.0",
     "moment": "^2.29.4",
@@ -26,12 +27,12 @@
     "react-native-countdown-component": "^2.7.1",
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-embed-instagram": "^0.1.1",
+    "react-native-image-crop-picker": "^0.39.0",
     "react-native-image-picker": "^4.10.2",
     "react-native-instagram-embed": "^0.0.6",
     "react-native-safe-area": "^0.5.1",
     "react-native-webview": "^11.23.1",
-    "rn-fetch-blob": "^0.12.0",
-    "expo-image-picker": "~13.3.1"
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
