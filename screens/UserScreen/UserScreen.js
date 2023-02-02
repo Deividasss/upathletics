@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, Pressable, Image, Modal, Platform, FlatList } from "react-native"
+import { Text, StyleSheet, View, Pressable, Image, Modal, Platform, FlatList, TouchableOpacity } from "react-native"
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 import { useContext, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,6 +9,8 @@ import { ImagePickerAvatar } from '../../components/ui/Avatar';
 import MenuModal from "../../components/ui/MenuModal";
 import Button from "../../components/ui/Button";
 import * as ImagePicker from 'expo-image-picker';
+import UserUploads from "../../components/UserUploads/UserUploads";
+import SaveButon from "../../components/ui/SaveButton";
 
 const UserScreen = () => {
     const navigation = useNavigation()
@@ -18,6 +20,20 @@ const UserScreen = () => {
     const [image, setImage] = useState(null);
     const [images, setImages] = useState([])
 
+    const pickImageHanlder = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        if (result.cancelled) {
+            return;
+        } else {
+            setImages([...images, { uri: result.uri }])
+        }
+    };
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -26,10 +42,7 @@ const UserScreen = () => {
             quality: 1,
         });
         setImage(result)
-        setImages(result)
     };
-
-    console.log(images)
 
     const takeImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
@@ -37,7 +50,6 @@ const UserScreen = () => {
             aspect: [16, 9],
             quality: 0.5
         })
-        console.log(result)
     }
 
 
@@ -46,6 +58,9 @@ const UserScreen = () => {
             <View style={styles.mainContainer}>
                 <View style={styles.navigatorContainer}>
                     <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                    <Pressable onPress={pickImageHanlder} style={styles.addBtn}>
+                        <Ionicons name="add" size={28} color={GlobalStyles.colors.text} />
+                    </Pressable>
                     <Pressable onPress={() => setModalVisible(true)} style={styles.menuBtn}>
                         <Ionicons name="menu" size={35} color={GlobalStyles.colors.text} />
                     </Pressable>
@@ -64,7 +79,9 @@ const UserScreen = () => {
                     <View style={styles.userEmailContainer}>
                         <Text style={styles.userEmail}>{authCtx.email}</Text>
                     </View>
-                    <Image style={styles.jolo} source={images} />
+                </View>
+                <View style={styles.userUploadsContainer}>
+                    <UserUploads images={images} />
                 </View>
             </View>
 
@@ -96,6 +113,14 @@ const styles = StyleSheet.create({
     logo: {
         height: 50,
         width: '32%',
+    },
+    addBtn: {
+        position: 'absolute',
+        right: 80,
+        top: 12,
+        borderWidth: 2,
+        borderColor: GlobalStyles.colors.primary200,
+        borderRadius: 10
     },
     menuBtn: {
         position: 'absolute',
@@ -136,8 +161,7 @@ const styles = StyleSheet.create({
         marginBottom: 60,
         width: "90%"
     },
-    jolo: {
-        width: 200,
-        height: 200
+    userUploadsContainer: {
+        flex: 1,
     }
 });
