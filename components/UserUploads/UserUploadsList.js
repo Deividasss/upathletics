@@ -1,10 +1,17 @@
 import { View, FlatList, TouchableOpacity, Text, Image, StyleSheet } from "react-native"
-import { useState } from "react";
-import * as ImagePicker from 'expo-image-picker';
-import SaveButon from "../ui/SaveButton";
 import { GlobalStyles } from "../../styles/colors/GlobalColors";
+import UserUploadsItem from "./UserUploadsItem";
 
-const UserUploads = ({images}) => {
+const UserUploadsList = ({images, image}) => {
+
+    const renderCategoriesItem = (itemData) => {
+        return (
+            <UserUploadsItem
+                uri={itemData.item.uri}
+                image={image}
+            />
+        )
+    }
    
     return (
         <View style={styles.mainContainer}>
@@ -13,17 +20,13 @@ const UserUploads = ({images}) => {
                     data={images}
                     numColumns={3}
                     keyExtractor={(item) => item.uri}
-                    renderItem={({ item }) => (
-                        <View style={styles.item}>
-                            <Image source={item} style={{ width: 130, height: 130, borderRadius: 5 }} />
-                        </View>
-                    )}
+                    renderItem={renderCategoriesItem}
                 />
             </View>
         </View>
     )
 }
-export default UserUploads
+export default UserUploadsList
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -32,13 +35,5 @@ const styles = StyleSheet.create({
         borderTopColor: GlobalStyles.colors.modal,
         borderTopWidth: 2,
         paddingTop: 10
-    },
-    item: {
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: GlobalStyles.colors.primary200,
-        borderWidth: 2,
-        borderRadius: 5
     },
 })

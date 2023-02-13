@@ -19,6 +19,8 @@ import AppLoading from 'expo-app-loading';
 import UserScreen from './screens/UserScreen/UserScreen';
 import SavedInfoScreen from './screens/SavedInfoScreens/SavedInfoScreen';
 import SteroidsScreen from './screens/SteroidsScreens/SteroidsScreen';
+import UserUploadsDetailsScreen from './screens/UserUploadsDetailsScreen.js/UserUploadsDetailsScreen';
+import UploadsCommentsScreen from './screens/UploadsCommentsScreen/UploadCommentsScreen';
 
 const Stack = createNativeStackNavigator()
 const Tabs = createBottomTabNavigator()
@@ -106,8 +108,13 @@ function AuthenticatedStack() {
         <Stack.Screen name='UpathleticsOverview' component={UpathleticsOverview} options={{
           headerShown: false
         }} />
-        <Stack.Screen name='SteroidsDetails' component={SteroidDetailScreen} options={{
-          
+        <Stack.Screen name='SteroidsDetails' component={SteroidDetailScreen} options={{  
+        }} />
+        <Stack.Screen name='UploadsDetails' component={UserUploadsDetailsScreen} options={{ 
+          headerTitle: "Post", 
+        }} />
+        <Stack.Screen name='UploadsComments' component={UploadsCommentsScreen} options={{ 
+          headerTitle: "Comment", 
         }} />
         <Stack.Screen name='NewsDetails' component={NewsDetails} options={{
           headerTitle: "News",

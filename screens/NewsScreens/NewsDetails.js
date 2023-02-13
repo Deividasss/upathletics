@@ -29,6 +29,7 @@ const NewsDetails = ({ route, navigation }) => {
                     <SaveButon
                         icon={productIsFavorite ? 'heart' : 'heart-outline'}
                         color="white"
+                        size={24}
                         onPress={addToFavorites}
                     />
                 );

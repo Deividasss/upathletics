@@ -7,10 +7,8 @@ import { useNavigation } from "@react-navigation/native"
 import { ImagePickerModal } from '../../components/ui/ImagePickerModal';
 import { ImagePickerAvatar } from '../../components/ui/Avatar';
 import MenuModal from "../../components/ui/MenuModal";
-import Button from "../../components/ui/Button";
 import * as ImagePicker from 'expo-image-picker';
-import UserUploads from "../../components/UserUploads/UserUploads";
-import SaveButon from "../../components/ui/SaveButton";
+import UserUploadsList from "../../components/UserUploads/UserUploadsList";
 
 const UserScreen = () => {
     const navigation = useNavigation()
@@ -52,7 +50,6 @@ const UserScreen = () => {
         })
     }
 
-
     return (
         <>
             <View style={styles.mainContainer}>
@@ -81,7 +78,7 @@ const UserScreen = () => {
                     </View>
                 </View>
                 <View style={styles.userUploadsContainer}>
-                    <UserUploads images={images} />
+                    <UserUploadsList image={image} images={images} />
                 </View>
             </View>
 

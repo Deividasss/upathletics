@@ -3,13 +3,13 @@ import { Ionicons } from '@expo/vector-icons'
 import { GlobalStyles } from "../../styles/colors/GlobalColors"
 
 
-const SaveButon = ({ onPress, icon, color }) => {
+const SaveButon = ({ onPress, icon, color,size }) => {
     return (
         <Pressable
             onPress={onPress}
             style={({ pressed }) => pressed && styles.pressed} >
             <View>
-                <Ionicons name={icon} size={24} color={color} />
+                <Ionicons name={icon} size={size} color={color} />
             </View>
         </Pressable >
     )
