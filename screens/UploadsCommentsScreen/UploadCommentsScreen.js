@@ -15,7 +15,7 @@ const UploadsCommentsScreen = ({ route }) => {
 
     return (
         <View style={styles.mainContainer}>
-            <CommentList image={userImage.uri} comments={comments} />
+            <CommentList image={userImage} comments={comments} />
             <CommentForm onSubmit={handleSubmit} />
         </View>
     )

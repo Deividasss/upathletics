@@ -52,17 +52,19 @@ const UserUploadsDetailsScreen = ({ route }) => {
             </View>
             <Image source={{ uri: productId }} style={styles.image} />
             <View style={styles.buttonsContainer}>
-                <SaveButon
-                    icon={saved ? 'heart' : 'heart-outline'}
-                    color="white"
-                    size={35}
-                    onPress={addToFavorites}
-                />
+                <View style={styles.likeBtn}>
+                    <SaveButon
+                        icon={saved ? 'heart' : 'heart-outline'}
+                        color="white"
+                        size={35}
+                        onPress={addToFavorites}
+                    />
+                </View>
                 <SaveButon
                     icon={'chatbubble-outline'}
                     color="white"
                     size={35}
-                    onPress={() => navigation.navigate('UploadsComments',{image: userImage})}
+                    onPress={() => navigation.navigate('UploadsComments', { image: userImage })}
                 />
             </View>
             <Text style={styles.likedText}>Liked by: {like}</Text>
@@ -83,7 +85,6 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: 'row',
-        width: '10%',
         marginVertical: 10,
         marginHorizontal: 5
     },
@@ -104,5 +105,8 @@ const styles = StyleSheet.create({
     likedText: {
         color: GlobalStyles.colors.text,
         marginHorizontal: 8
+    },
+    likeBtn:{
+        marginRight: 15
     }
 })
