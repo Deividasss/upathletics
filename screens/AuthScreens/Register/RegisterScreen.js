@@ -12,6 +12,7 @@ function SignupScreen() {
     const authCtx = useContext(AuthContext);
 
     async function signupHandler({ email, password }) {
+        authCtx.setEmail(email)
         setIsAuthenticating(true);
         try {
             const token = await createUser(email, password);
